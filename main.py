@@ -16,9 +16,10 @@ proxies = {'http': 'localhost: 8118',
            }
 
 
-def get_google(query: str = query_for_google, stop: int = 30) -> list:
+def get_google(query: str = query_for_google, stop: int = 45) -> list:
     result_list = list()
-    for url in search(query=query, stop=stop):
+    google_result = search(query=query, stop=stop, pause=7)
+    for url in google_result:
         result_list.append(url)
     return result_list
 
@@ -37,7 +38,7 @@ def add_site_info_in_file(url, marker, google_position: int):
         file.write(f'Marker: "{marker}"\n')
         file.write(f'Google position: {google_position}\n')
         file.write('-------------------------------------------------------------\n')
-        print(f'Added {url}')
+        print(f'Added({google_position}): {url}')
 
 
 def add_sites_with_injection_in_result_file(url: str, google_position: int):
@@ -49,8 +50,17 @@ def add_sites_with_injection_in_result_file(url: str, google_position: int):
             return
 
 
+def clean_up():
+    try:
+        os.remove(result_file_name)
+    except:
+        return
+
+
 if __name__ == '__main__':
-    os.remove(result_file_name)
+    clean_up()
+    print('cleaned')
     google_links = get_google()
+    print('google links ready to use')
     for i in range(len(google_links)):
         add_sites_with_injection_in_result_file(google_links[i], i)
