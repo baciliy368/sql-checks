@@ -16,7 +16,7 @@ proxies = {'http': 'localhost: 8118',
            }
 
 
-def get_google(query: str = query_for_google, stop: int = 100) -> list:
+def get_google(query: str = query_for_google, stop: int = 30) -> list:
     result_list = list()
     for url in search(query=query, stop=stop):
         result_list.append(url)
